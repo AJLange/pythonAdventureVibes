@@ -1,3 +1,9 @@
+'''
+it looks like right now i can only take one apple. let's make it so i can take up to 10 apples.
+'''
+
+# Spooky Forest Adventure - Full Updated Version with multiple apples
+
 rooms = {
     "spooky_forest": {
         "description": "You are lost in a dark, spooky forest. The wind howls through the trees. A narrow path leads north.",

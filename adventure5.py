@@ -1,9 +1,7 @@
 '''
-Let's allow the player to sell apples at the town.
-Let's add more stuff to buy in the town. A sword, a shield, an amulet
-'''
+if you get past the ghost using the water wings, there's an old woman waiting for you at the other side of the lake. if you have the sword, she tells you that you can proceed to a new world of adventure. the game ends and you win, for now. if you don't have the sword, she tells you to go back because the next country is too dangerous and you will be captured by bandits. can we code all that in?
 
-# Spooky Forest Adventure - Full Updated Version
+'''
 
 rooms = {
     "spooky_forest": {
@@ -17,14 +15,14 @@ rooms = {
     "farm_country": {
         "description": "You walk into open farm country. Apple trees line the edge of the fields. You can try to 'take apple' here.",
         "exits": {"east": "crossroads"},
-        "item": "apple",
-        "item_taken": False
+        "apples_left": 10
     },
     "lake": {
         "description": "You arrive at a quiet lake. Mist hovers over the water. It feels... unsettling.",
         "exits": {"west": "crossroads"},
         "spooky_event_done": False,
-        "blocked_by_ghost": True
+        "blocked_by_ghost": True,
+        "met_old_woman": False
     },
     "town": {
         "description": (
@@ -74,6 +72,20 @@ while True:
     else:
         print(room["description"])
 
+    # New old woman encounter after ghost is gone
+    if current_room == "lake" and not room.get("blocked_by_ghost", True) and not room.get("met_old_woman", False):
+        print("\nAn old woman appears at the far side of the lake.")
+        if "sword" in inventory:
+            print('"Ah, brave one," she says, "You carry the sword of legends. You may proceed to the new world of adventure."')
+            print("Congratulations! You win—for now!")
+            break
+        else:
+            print('"You must go back," she warns. "The next country is too dangerous. Bandits will capture you without a sword."')
+            # Send player back to crossroads
+            current_room = "crossroads"
+            room["met_old_woman"] = True
+            continue
+
     command = input("\nWhat do you want to do? ").lower().strip()
 
     if command == "quit":
@@ -89,12 +101,13 @@ while True:
         print(f"Gold: {gold}")
     elif command.startswith("take "):
         item = command[5:]
-        if "item" in room and room["item"] == item and not room.get("item_taken", False):
-            inventory.append(item)
-            room["item_taken"] = True
-            print(f"You take the {item}.")
-        elif "item" in room and room["item"] == item:
-            print(f"You already took the {item}.")
+        if current_room == "farm_country" and item == "apple":
+            if rooms["farm_country"]["apples_left"] > 0:
+                inventory.append("apple")
+                rooms["farm_country"]["apples_left"] -= 1
+                print(f"You pick an apple. Apples left on tree: {rooms['farm_country']['apples_left']}")
+            else:
+                print("There are no more apples left on the tree.")
         else:
             print("There is nothing like that here.")
     elif command.startswith("buy "):

@@ -1,3 +1,8 @@
+'''
+Let's add some kind of scary encounter at the lake.
+How about this. The player can't get past the lake ghost without enchanted water wings. they can buy the water wings from a vendor in the town. that would require a new item and a way to buy things.
+'''
+
 # Spooky Forest Adventure: Now with buying, gold, and lake block
 
 rooms = {

@@ -1,3 +1,9 @@
+'''
+Hm, it's a little buggy. if I go without the sword I'm sent back, but then if i come back with the sword, the old woman vanishes. it should be that i can go buy the sword and come back.
+'''
+
+#Spooky Forest Adventure - final version for now
+
 rooms = {
     "spooky_forest": {
         "description": "You are lost in a dark, spooky forest. The wind howls through the trees. A narrow path leads north.",

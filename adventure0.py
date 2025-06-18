@@ -1,8 +1,10 @@
 '''
-Let's add an inventory system. I want to be able to pick apples on the farm.
+I really like text adventures. how would I go about creating one of those?
+Let's build the game in python.
+The game starts lost in a spooky forest, and then the player can go north to a crossroads. From the roads they can go west, to farm country, east, to the lake, or north, to a bustling town full of shopping. 
 '''
 
-# Spooky Forest Adventure with Inventory
+# Spooky Forest Text Adventure Game
 
 rooms = {
     "spooky_forest": {
@@ -14,10 +16,8 @@ rooms = {
         "exits": {"south": "spooky_forest", "west": "farm_country", "east": "lake", "north": "town"}
     },
     "farm_country": {
-        "description": "You walk into open farm country. Apple trees line the edge of the fields. You can try to 'take apple' here.",
-        "exits": {"east": "crossroads"},
-        "item": "apple",
-        "item_taken": False
+        "description": "You walk into open farm country. The smell of hay and soil fills the air.",
+        "exits": {"east": "crossroads"}
     },
     "lake": {
         "description": "You arrive at a quiet lake. Mist hovers over the water. It feels... unsettling.",
@@ -29,11 +29,10 @@ rooms = {
     }
 }
 
-inventory = []
 current_room = "spooky_forest"
 
 print("Welcome to the Spooky Forest Adventure!")
-print("Type 'go [direction]', 'look', 'inventory', 'take [item]', or 'quit'.\n")
+print("Type 'go [direction]', 'look', or 'quit' to play.\n")
 
 while True:
     room = rooms[current_room]
@@ -44,29 +43,14 @@ while True:
     if command == "quit":
         print("Thanks for playing!")
         break
-    elif command == "look":
-        print(room["description"])
-    elif command == "inventory":
-        if inventory:
-            print("You are carrying:", ", ".join(inventory))
-        else:
-            print("You are not carrying anything.")
-    elif command.startswith("take "):
-        item = command[5:]
-        if "item" in room and room["item"] == item and not room.get("item_taken", False):
-            inventory.append(item)
-            room["item_taken"] = True
-            print(f"You take the {item}.")
-        elif "item" in room and room["item"] == item:
-            print(f"You already took the {item}.")
-        else:
-            print("There is nothing like that here.")
     elif command.startswith("go "):
         direction = command[3:]
         if direction in room["exits"]:
             current_room = room["exits"][direction]
         else:
             print("You can't go that way.")
+    elif command == "look":
+        print(room["description"])
     else:
         print("I don't understand that command.")
     
